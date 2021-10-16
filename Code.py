@@ -11,24 +11,24 @@ window.configure()
 #window.mainloop()
 
 def search(data):
-    print(f"searching for {data} on walmart")
+    print(f"Searching for {data} on walmart")
     wb.open("https://www.walmart.ca/search?q="+data)
+
+def grocery_intro():
+    fstr = "Grocery List Created!\n"
+    fstr += "You can use the following commands\n1) Add [item] to the grocery list\n2) Remove [item] from the list\n3) Show my list\n4) Search [item] on walmart(should be in your list)\n5) (Exit/ I'm done/ That's it) to stop navigating\n"
+
+    return fstr
 
 def grocery_list():
     recognizer = speech_recognition.Recognizer()
     exit_phrases = ["exit", "i'm done", "bye", "that's it"]
-    exit_text = ""
-    for e in exit_phrases:
-        if(e != exit_phrases[-1]):
-            exit_text += e + "/ "
-        else:
-            exit_text += e
-    print("Say any of the following to exit( " + exit_text + " )")
-    print("Grocery List Created!\n")
+    print(grocery_intro())   
     grocerylist = []
     while True:
-        
+
         try:
+            #recording audio
             with speech_recognition.Microphone() as mic:
                 recognizer.adjust_for_ambient_noise(mic, duration=0.2)
 
@@ -42,10 +42,11 @@ def grocery_list():
                 if text in exit_phrases:
                     break
                 
-                if("add" or "include") in text:
+                if("add") in text:
                     textbreak = text.split(" ")
                     usevalue = textbreak[textbreak.index("add")+1]
-                    if (usevalue in (["one", "two", "three", "to"]) or range(100)) and len(textbreak)>2:                            
+                    numbervalues = ["one", "two", "three", "four", "five", "to"]
+                    if usevalue in numbervalues or usevalue.isdigit():                           
                         usevalue = textbreak.index("add") + 2
                         grocerylist.append(textbreak[usevalue])
                         print(f"Added: {textbreak[usevalue]}")
@@ -55,17 +56,29 @@ def grocery_list():
                         print(f"Added: {textbreak[usevalue]}")
 
                 #remove item from list
-
+                if("remove") in text:
+                    textbreak = text.split(' ')
+                    usevalue = textbreak[textbreak.index("remove")+1]
+                    if(usevalue in grocerylist):
+                        remitem = grocerylist[grocerylist.index(usevalue)]
+                        print(f"Removed:{remitem}")
+                        del grocerylist[grocerylist.index(usevalue)]
+                #show the list to user
                 if("show") in text:
-                    print(f"Grocery List:{showlist(grocerylist)}")
+                    print(f"\nGrocery List:{showlist(grocerylist)}")
 
+                #search for item on walmart
                 if ("search") in text:
                     textbreak = text.split(" ")
-                    usevalue = textbreak[textbreak.index("search") + 1]
-                    if usevalue in grocerylist:
-                        search(usevalue)
-                    else:
-                        print("Try saying 'search [item] on walmart'(item should in your grocery list)")
+                    try:
+                        usevalue = textbreak[textbreak.index("search") + 1]
+                        if usevalue in grocerylist:
+                            search(usevalue)
+                        else:
+                            print("Try saying 'search [item] on walmart'(item should be in your grocery list)\n")                        
+                    except IndexError:
+                        print("Try saying 'search [item] on walmart'(item should be in your grocery list)\n")
+
         except speech_recognition.UnknownValueError:
             recognizer = speech_recognition.Recognizer()
             continue
