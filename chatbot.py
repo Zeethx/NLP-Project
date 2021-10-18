@@ -50,7 +50,7 @@ def get_response(intents_list, intents_json):
 			result = random.choice(i['responses'])
 
 			if tag == 'createlist':
-				import aiclub
+				import grocery
 			break
 	return result
 
