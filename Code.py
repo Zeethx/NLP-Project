@@ -4,12 +4,6 @@ import pyaudio
 import tkinter as tk
 import webbrowser as wb
 
-window = tk.Tk()
-window.title()
-
-window.configure()
-#window.mainloop()
-
 def search(data):
     print(f"Searching for {data} on walmart")
     wb.open("https://www.walmart.ca/search?q="+data)
@@ -57,15 +51,20 @@ def grocery_list():
 
                 #remove item from list
                 if("remove") in text:
-                    textbreak = text.split(' ')
-                    usevalue = textbreak[textbreak.index("remove")+1]
-                    if(usevalue in grocerylist):
-                        remitem = grocerylist[grocerylist.index(usevalue)]
-                        print(f"Removed:{remitem}")
-                        del grocerylist[grocerylist.index(usevalue)]
+                    try:
+                        textbreak = text.split(' ')
+                        usevalue = textbreak[textbreak.index("remove")+1]
+                        if(usevalue in grocerylist):
+                            remitem = grocerylist[grocerylist.index(usevalue)]
+                            print(f"Removed:{remitem}")
+                            del grocerylist[grocerylist.index(usevalue)]
+                    except:
+                        print("Item not in the list")
+                        showlist(grocerylist)
+                        pass
                 #show the list to user
                 if("show") in text:
-                    print(f"\nGrocery List:{showlist(grocerylist)}")
+                    print(f"\n-----Grocery List-----\n{showlist(grocerylist)}")
 
                 #search for item on walmart
                 if ("search") in text:
@@ -84,8 +83,10 @@ def grocery_list():
             continue
 
 def showlist(grocery_list):
-
-    return grocery_list
-    
-
+    fstr = ""
+    i=1
+    for item in grocery_list:
+        fstr += f"{i}){item}\n"
+        i+=1
+    return fstr
 grocery_list()
