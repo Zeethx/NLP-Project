@@ -1,0 +1,33 @@
+{"intents": [
+        {"tag": "greeting",
+         "patterns": ["Hi, How are you", "Is anyone there?","Hey","Hola", "Hello"],
+         "responses": ["Hello!", "Hey, how are you doing today?", "Hi there, how can I help?"],
+         "context": [""]
+        },
+        {"tag": "goodbye",
+         "patterns": ["Bye", "See you later", "Goodbye", "Nice chatting with you, bye", "Till next time"],
+         "responses": ["See you!", "Have a nice day", "Bye!"],
+         "context": [""]
+        },
+        {"tag": "thanks",
+         "patterns": ["Thanks", "Thank you", "That's helpful", "Awesome, thanks", "Thanks for helping me"],
+         "responses": ["Happy to help!", "Any time!", "My pleasure"],
+         "context": [""]
+        },
+        {"tag": "noanswer",
+         "patterns": ["", " "],
+         "responses": ["Sorry, I could not understand", "Please give me more info", "Not sure I understand"],
+         "context": [""]
+        },
+        {"tag": "options",
+         "patterns": ["How you could help me?", "What help you provide?", "How can you be helpful?"],
+         "responses": ["I can help you get a grocery list together(type : 'create grocery list')"],
+         "context": [""]
+        },
+        {"tag":"createlist",
+         "patterns": ["create a grocery list", "create my grocery list", "make a list", "make a grocery list"],
+         "responses":[""],
+         "context":[""]}
+
+        ]
+}
